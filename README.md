@@ -1,0 +1,1 @@
+Hi, this is my first repo and im just doing simple projects and putting them here to showcase them. These are totally begiiner projects but i hoping they get more bigger and more impressive as i keep making them.
