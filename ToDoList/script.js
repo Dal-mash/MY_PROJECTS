@@ -1,6 +1,6 @@
 let list = [];
 const popWindow = document.getElementById('addWindow');
-const taskName = document.getElementById('nameInput');
+const nameInput = document.getElementById('nameInput');
 const taskDes = document.getElementById('desInput');
 const ul = document.getElementById('taskList');
 //opening the task window
@@ -11,19 +11,23 @@ function openPop(){
 //closing the task window
 function closePop(){
     popWindow.style.display = 'none';
-    taskName.value = "";
+    nameInput.value = "";
     taskDes.value = "";
 }
 
 //Creatign a task
 function taskAdd(){
     console.log('called');
-    list.unshift(new task(taskName, taskDes));
+    if(nameInput.value != "" ){
+        list.unshift(new task(nameInput, taskDes));
+        showList();
+    }
     closePop();
 }
-function task(taskName, description){
-    this.description=description;
-    this.taskName=taskName;
+//task constructor
+function task(nameInput, description){
+    this.description=description.value;
+    this.taskName=nameInput.value;
     this.done = false;
     this.editDescription = function(newDescription){
         this.description=newDescription;
@@ -32,13 +36,32 @@ function task(taskName, description){
         this.taskName = newName;
     }
 }
+
+
 //showing list of tasks
 function showList(){
-    list.forEach(item =>{
+    ul.innerHTML = "";
+    for(let i=0; i<list.length; i++){
         const li = document.createElement('li');
-        li.textContent = '{item.taskName}';
-        ul.appendChild('li');
-        console.log('owejf');
-    });
+        const taskButton = taskButtons();
+        li.textContent = list[i].taskName;
+        ul.appendChild(li);
+        li.appendChild(taskButton);
+    }
 }
 
+// making buttons on tasks
+function taskButtons() {
+    const taskButtonsContainer = document.createElement('div');
+    const doneButton = document.createElement('button');
+    const desButton = document.createElement('button');
+    desButton.className = "desButton";
+    doneButton.className = 'doneButton';  
+    doneButton.textContent = 'done';
+    desButton.textContent = "detail";
+    taskButtonsContainer.className = 'li-buttons';
+    taskButtonsContainer.appendChild(desButton);
+    taskButtonsContainer.appendChild(doneButton);
+    
+    return taskButtonsContainer;
+}

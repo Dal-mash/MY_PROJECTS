@@ -15,13 +15,63 @@ body{
 }
 h1{
     text-align: center;
-    border:1px solid black;
     margin-bottom:30px;
 }
 ul{
     width: 100%;
-    padding: 0;
+    padding: 1px;
     overflow: hidden;
+    box-sizing: border-box;
+}
+li{
+    width: 100%;
+    list-style: none;
+    background-color: #EAEAEA;
+    font-size:25px;
+    box-sizing: border-box;
+    height: auto;
+    padding:5px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.li-buttons{
+    height: auto;
+    width: auto;
+    display: flex;
+    box-sizing: border-box;
+}
+.li-buttons > button{
+    height: auto;
+    font-size: 20px;
+    border-radius: 0;
+    width: 60px;
+    text-align: center;
+    color: white;
+}
+.desButton{
+    background-color: rgb(4, 196, 255);
+    margin-bottom: 0;
+    margin-right: 5px;
+}
+.desButton:hover{
+    background-color:rgb(2, 149, 194);
+}
+.desButton:active{
+    background-color:rgb(74, 209, 250) ;
+}
+.doneButton{
+    background-color: rgb(135, 224, 0);
+    margin-bottom: 0;
+    margin-right: 20px;
+}
+.doneButton:hover{
+    background-color: rgb(108, 180, 1);
+}
+.doneButton:active{
+    background-color: rgb(165, 255, 31);
 }
 button{
     height: 100%;
