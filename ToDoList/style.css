@@ -1,0 +1,110 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    height: 100vh;
+    background-color: #EAEAEA;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.main{
+    background-color: white;
+    width: 500px;
+    padding: 0 20px;
+    position: relative;
+}
+h1{
+    text-align: center;
+    border:1px solid black;
+    margin-bottom:30px;
+}
+ul{
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+}
+button{
+    height: 100%;
+    width: 100%;
+    font-size:30px;
+    text-align: left;
+    border:none;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+button:hover{
+    cursor: pointer;
+    background-color: #e0e0e0;
+}
+button:active{
+    background-color: #f8f8f8;
+}
+.addWindow{
+    position: absolute;
+    height: 290px;
+    width: 558px;
+    z-index: 1;
+    background-color: white;
+    top:-10px;
+    left: -10px;
+    box-sizing: border-box;
+    padding:20px;
+    border-radius: 10px;
+    color:#4ae0fa;
+    display: none;
+}
+#nameInput{
+    width: 100%;
+    box-sizing: border-box;
+    border:none;
+    background-color:#EAEAEA;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 27px;
+    padding:0px 10px;
+    font-weight: thin;
+    margin-bottom:20px;
+    outline: none;
+}
+#desInput{
+    width: 100%;
+    box-sizing: border-box;
+    border:none;
+    background-color:#EAEAEA;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 27px;
+    padding:0px 10px;
+    font-weight: thin;
+    overflow: hidden;
+    margin-bottom:30px;
+    outline: none;
+}
+.popTitle{
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+.popButtonsContainer{
+    display: flex;
+    justify-content: space-between;
+}
+.popButtons{
+    width: 30%;
+    background-color: rgb(245, 168, 26);
+    text-align: center;
+    font-size: 21px;
+    height: 45px;
+    color: white;
+    font-weight: bold;
+}
+.close{
+    background-color: #ff1c1c;
+}
+.close:hover{
+    background-color: rgb(221, 3, 3);
+}
+.close:active{
+    background-color: rgb(255, 128, 128);
+}
+.create:hover{background-color: rgb(219, 143, 1);}
+.create:active{background-color: rgb(247, 192, 90);}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="main">
+        <h1>TASKS</h1>
+        <ul>
+        </ul>
+        <div class="addWindow" id="addWindow">
+            <div class="modal-content">
+                <div class="popTitle">Task Name</div>
+                <input type="text" id="nameInput">
+                <div class="popTitle">Task Description</div>
+                <input type="text" id="desInput">
+                <div class="popButtonsContainer">
+                    <button class="close popButtons" onclick="closePop()">Cancel</button>
+                    <button class="create popButtons" onclick="taskAdd()">Add</button>
+                </div>
+            </div>
+        </div>
+        <ul></ul>
+        <button onclick='openPop()'>Add a task</button>
+
+
+    </div>
+</body>
+</html>
