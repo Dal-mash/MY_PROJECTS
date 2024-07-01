@@ -47,8 +47,10 @@ function showList(){
         li.textContent = list[i].taskName;
         ul.appendChild(li);
         li.appendChild(taskButton);
-    }
+    }a
 }
+
+
 
 // making buttons on tasks
 function taskButtons() {
@@ -62,6 +64,14 @@ function taskButtons() {
     taskButtonsContainer.className = 'li-buttons';
     taskButtonsContainer.appendChild(desButton);
     taskButtonsContainer.appendChild(doneButton);
-    
+    doneButton.addEventListener('click', function(){
+        const listElement = doneButton.parentElement.parentElement;
+        for(let i=0; i<list.length;i++){
+            if(listElement.textContent === list[i].taskName){
+                list.splice(i, 1);
+            }
+        }
+        ul.removeChild(listElement);
+    })
     return taskButtonsContainer;
 }
