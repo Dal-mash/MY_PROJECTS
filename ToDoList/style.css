@@ -116,20 +116,7 @@ button:active{
     margin-bottom:20px;
     outline: none;
 }
-#desInput{
-    width: 100%;
-    box-sizing: border-box;
-    border:none;
-    background-color:#EAEAEA;
-    height: 40px;
-    border-radius: 10px;
-    font-size: 27px;
-    padding:0px 10px;
-    font-weight: thin;
-    overflow: hidden;
-    margin-bottom:30px;
-    outline: none;
-}
+
 .popTitle{
     font-size: 25px;
     margin-bottom: 5px;

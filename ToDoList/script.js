@@ -1,8 +1,8 @@
-let list = [];
 const popWindow = document.getElementById('addWindow');
 const nameInput = document.getElementById('nameInput');
-const taskDes = document.getElementById('desInput');
+const cursor = document.cursor;
 const ul = document.getElementById('taskList');
+let x = 0;
 //opening the task window
 function openPop(){
     popWindow.style.display = 'block';
@@ -12,44 +12,21 @@ function openPop(){
 function closePop(){
     popWindow.style.display = 'none';
     nameInput.value = "";
-    taskDes.value = "";
 }
 
 //Creatign a task
 function taskAdd(){
-    console.log('called');
-    if(nameInput.value != "" ){
-        list.unshift(new task(nameInput, taskDes));
-        showList();
-    }
+    if(nameInput.value != ''){
+    const li = document.createElement('li');
+    li.textContent = nameInput.value;
+    const taskButton = taskButtons()
+    li.appendChild(taskButton);
+    ul.appendChild(li);
+    x++;
     closePop();
-}
-//task constructor
-function task(nameInput, description){
-    this.description=description.value;
-    this.taskName=nameInput.value;
-    this.done = false;
-    this.editDescription = function(newDescription){
-        this.description=newDescription;
     }
-    this.editName = function (newName){
-        this.taskName = newName;
-    }
+    
 }
-
-
-//showing list of tasks
-function showList(){
-    ul.innerHTML = "";
-    for(let i=0; i<list.length; i++){
-        const li = document.createElement('li');
-        const taskButton = taskButtons();
-        li.textContent = list[i].taskName;
-        ul.appendChild(li);
-        li.appendChild(taskButton);
-    }a
-}
-
 
 
 // making buttons on tasks
@@ -64,14 +41,11 @@ function taskButtons() {
     taskButtonsContainer.className = 'li-buttons';
     taskButtonsContainer.appendChild(desButton);
     taskButtonsContainer.appendChild(doneButton);
+
     doneButton.addEventListener('click', function(){
         const listElement = doneButton.parentElement.parentElement;
-        for(let i=0; i<list.length;i++){
-            if(listElement.textContent === list[i].taskName){
-                list.splice(i, 1);
-            }
-        }
         ul.removeChild(listElement);
-    })
+    });
+
     return taskButtonsContainer;
 }
