@@ -12,6 +12,8 @@ body{
     width: 500px;
     padding: 0 20px;
     position: relative;
+    max-height: 500px;
+    overflow: hidden;
 }
 h1{
     text-align: center;
@@ -20,7 +22,7 @@ h1{
 ul{
     width: 100%;
     padding: 1px;
-    overflow: hidden;
+    max-height: 238px;
     box-sizing: border-box;
 }
 li{
@@ -51,17 +53,6 @@ li{
     text-align: center;
     color: white;
 }
-.desButton{
-    background-color: rgb(4, 196, 255);
-    margin-bottom: 0;
-    margin-right: 5px;
-}
-.desButton:hover{
-    background-color:rgb(2, 149, 194);
-}
-.desButton:active{
-    background-color:rgb(74, 209, 250) ;
-}
 .doneButton{
     background-color: rgb(135, 224, 0);
     margin-bottom: 0;
@@ -91,7 +82,7 @@ button:active{
 }
 .addWindow{
     position: absolute;
-    height: 290px;
+    height: 180px;
     width: 558px;
     z-index: 1;
     background-color: white;
@@ -120,6 +111,7 @@ button:active{
 .popTitle{
     font-size: 25px;
     margin-bottom: 5px;
+    font-weight: bolder;
 }
 .popButtonsContainer{
     display: flex;
