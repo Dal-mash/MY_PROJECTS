@@ -47,7 +47,7 @@ button{
     padding:0;
 }
 button:hover{
-    background-color: rgb(1, 139, 1);
+    background-color: rgb(1, 158, 1);
 }
 button:active{
     background-color: rgb(1, 212, 1);
