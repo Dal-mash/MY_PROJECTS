@@ -1,0 +1,82 @@
+body{
+    padding: 0;
+    margin:0;
+    background-color: rgb(177, 245, 245);
+    font-family:Arial, Helvetica, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+h1{
+    color: rgb(1, 183, 255);
+    font-size: 50px;
+    font-weight: 1000;
+    margin-top:10px;
+}
+main{
+    background-color: white;
+    text-align: center;
+    height: 420px;
+    width: 600px;
+    box-sizing: border-box;
+    padding:20px;
+    box-shadow: 13px 13px black;
+}
+#num{
+    font-size: 160px;
+    font-weight: bolder;
+    color: rgb(146, 146, 146);
+}
+.buttons{
+    margin-top:30px;
+}
+button{
+    font-weight: bolder;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    height: 30px;
+    width: 120px;
+    font-size: 15px;
+    cursor: pointer;
+    margin: 0 10px;
+    background-color: white;
+}
+.res{
+    width: 90px;
+}
+.res:hover{
+    background-color: rgb(196, 196, 196);
+    border:none;
+}
+.res:active{
+    background-color: rgb(233, 233, 233);
+    border:none;
+}
+.dec{
+    color: rgb(204, 0, 0);
+    border-color: red;
+}
+.dec:hover{
+    background-color:rgb(204, 0, 0);
+    border:none;
+    color:white;
+}
+.dec:active{
+    background-color:rgb(255, 2, 2);;
+    border:none;
+    color:white;
+}
+.inc{
+    color:rgb(10, 192, 10);
+    border: 1px solid green;
+}
+.inc:hover{
+    background-color: rgb(10, 192, 10);
+    color:white;
+    border:none;
+}
+.inc:active{
+    background-color: rgb(13, 255, 13);
+    color:white;
+    border:none;
+}
