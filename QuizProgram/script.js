@@ -9,16 +9,48 @@ document.addEventListener('DOMContentLoaded', () => {
     finishButton.style.display = 'none';
     scoreElement.style.display = 'none';
     const questions = [
-        'Select the 1st option',
-        'Select the 3rd option',
-        'Select the 4th option',
-        'Select the 1st option',
-        'Select the 4th option',
-        'Select the 1st option',
-        'Select the 2nd option',
-        'Select the 3rd option'
+        'What is the best way to catch a squirrel?',
+        'Why don’t scientists trust atoms?','What did the big flower say to the little flower?','How do you organize a space party?','Why was the math book sad?','Why don’t skeletons fight each other?','What do you call fake spaghetti?','Why did the scarecrow win an award?','How does a penguin build its house?','Why don’t oysters share their pearls?'
     ];
+    const option1Text =['Climb up a tree act like a nut',
+        'They make up everything',
+        '"Whats up bud? "',
+        'You planet',
+        'It had too many problems',
+        'They dont have the guts',
+        'An impasta',
+        'igloos it together',
+        'Because they "re" shellfish'
+     ];
+     const option2Text = [
+        'Set a squirrel trap with acorns',
+        'They’re always positive',
+        'Bloom where you’re planted',
+        'With space cakes',
+        'It couldn’t solve its issues',
+        'They’re bone idle',
+        'Foolsini',
+        'He had a big heart',
+        'With snow bricks',
+        'They don’t like sharing'
+     ];
+     const option3Text = ['Dress up as a giant squirrel','They’re just too smal','“Stop and smell the roses”','Invite some astronauts','It got a bad grade',' They’re too bony','Noodle knock-off','He made corny jokes','With lots of ice','They’re too shy'];
 
+     const option4text = [
+        'Call its mom and tell on it','They’re never neutral',' “Grow up!”','Hire a space DJ','It was just a bit square','They prefer to chill','paghetti faker','He was a-maize-ing','By asking nicely','They’re introverts'];
+    
+    
+    //handling text content of options
+    let op1 = document.getElementById('option1');
+    let op2 = document.getElementById('option2');
+    let op3 = document.getElementById('option3');
+    let op4 = document.getElementById('option4');
+    op1.textContent = option1Text[0];
+    op2.textContent = option2Text[0];
+    op3.textContent = option3Text[0];
+    op4.textContent = option4text[0];
+    
+    
     // Handling selected inputs
     const options = document.querySelectorAll('.option');
     const questionElement = document.getElementById('question');
@@ -55,6 +87,10 @@ document.addEventListener('DOMContentLoaded', () => {
         answerIndex++;
         if (answerIndex < answer.length) {
             questionElement.textContent = questions[answerIndex];
+            op1.textContent = option1Text[answerIndex];
+            op2.textContent = option2Text[answerIndex];
+            op3.textContent = option3Text[answerIndex];
+            op4.textContent = option4text[answerIndex];
         } else {
             next.style.display = 'none';
             finishButton.style.display = 'block';
