@@ -78,9 +78,6 @@ main{
 button{
     cursor: pointer;
 }
-.option:active{
-    background-color: aliceblue;
-}
 #nextQuestion{
     margin-top:20px;
     background-image: linear-gradient(to top,rgb(0, 111, 214) , rgb(160, 179, 255) );

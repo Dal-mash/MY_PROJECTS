@@ -19,13 +19,14 @@ document.addEventListener('DOMContentLoaded', () => {
         'It had too many problems',
         'They dont have the guts',
         'An impasta',
+        'He was outstanding in his field',
         'igloos it together',
         'Because they "re" shellfish','replacement text'
      ];
      const option2Text = [
         'Set a squirrel trap with acorns',
         'They’re always positive',
-        'Bloom where you’re planted',
+        "'Bloom where you’re planted'",
         'With space cakes',
         'It couldn’t solve its issues',
         'They’re bone idle',
@@ -54,6 +55,30 @@ document.addEventListener('DOMContentLoaded', () => {
         x.addEventListener('click', () => {
             let optionsArray = Array.from(options);
             selected = optionsArray.indexOf(x) + 1;
+            if(selected==1){
+                op1.style.background = ' rgb(216, 216, 216)'
+                op2.style.background = ' white';
+                op3.style.background = ' white';
+                op4.style.background = ' white';
+            }
+            else if(selected==2){
+                op2.style.background = ' rgb(216, 216, 216)'
+                op1.style.background = ' white';
+                op3.style.background = ' white';
+                op4.style.background = ' white';
+            }
+            else if(selected==3){
+                op3.style.background = ' rgb(216, 216, 216)'
+                op1.style.background = ' white';
+                op2.style.background = ' white';
+                op4.style.background = ' white';
+            }
+            else if(selected==4){
+                op4.style.background = ' rgb(216, 216, 216)'
+                op1.style.background = ' white';
+                op3.style.background = ' white';
+                op1.style.background = ' white';
+            }
             console.log(selected);
         });
     }
@@ -83,8 +108,13 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(answerIndex);
         answerIndex++;
         document.getElementById('qNum').textContent = answerIndex;
+        op1.style.background = ' white'
+        op2.style.background = ' white';
+        op3.style.background = ' white';
+        op4.style.background = ' white';
         if (answerIndex < answer.length) {
             questionElement.textContent = questions[answerIndex];
+            document.getElementById('qNum').textContent = answerIndex+1;
             op1.textContent = option1Text[answerIndex];
             op2.textContent = option2Text[answerIndex];
             op3.textContent = option3Text[answerIndex];
