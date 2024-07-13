@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const main = document.getElementById('quiz');
-    const answer = ['1', '3', '4', '1', '4', '1', '2', '3'];
+    const answer = ['1', '3', '4', '1', '4', '1', '2', '3','9','10'];
     let answerIndex = 0;
     let selected = 0;
     const scoreElement = document.getElementById('score');
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'They dont have the guts',
         'An impasta',
         'igloos it together',
-        'Because they "re" shellfish'
+        'Because they "re" shellfish','replacement text'
      ];
      const option2Text = [
         'Set a squirrel trap with acorns',
@@ -45,10 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let op2 = document.getElementById('option2');
     let op3 = document.getElementById('option3');
     let op4 = document.getElementById('option4');
-    op1.textContent = option1Text[0];
-    op2.textContent = option2Text[0];
-    op3.textContent = option3Text[0];
-    op4.textContent = option4text[0];
     
     
     // Handling selected inputs
@@ -64,9 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Finish button
     function finishQuiz() {
-        scoreElement.textContent ='Your Score: ' + score + "/" + answer.length;
+        scoreElement.textContent = score + "/" + answer.length;
         scoreElement.style.display = 'block';
         goBackButton.style.display = 'block';
+        document.getElementById('container').style.display = 'none';
         finishButton.style.display = 'none';
     }
 
@@ -85,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         selected=0;
         console.log(answerIndex);
         answerIndex++;
+        document.getElementById('qNum').textContent = answerIndex;
         if (answerIndex < answer.length) {
             questionElement.textContent = questions[answerIndex];
             op1.textContent = option1Text[answerIndex];
@@ -94,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             next.style.display = 'none';
             finishButton.style.display = 'block';
+            console.log('quiz-ended');
         }
     }
 
@@ -112,6 +111,12 @@ document.addEventListener('DOMContentLoaded', () => {
         next.style.display = 'block';
         finishButton.style.display = 'none';
         questionElement.textContent = questions[0];
+        document.getElementById('qNum').textContent = '1';
+        op1.textContent = option1Text[0];
+        op2.textContent = option2Text[0];
+        op3.textContent = option3Text[0];
+        op4.textContent = option4text[0];
+        document.getElementById('container').style.display = 'block';
     }
 
     // Go back button

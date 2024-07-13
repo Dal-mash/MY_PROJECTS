@@ -1,37 +1,59 @@
 body{
     margin:0;
     padding:0;
-    background-color: rgb(181, 240, 220);
+    background-color: rgb(255, 255, 255);
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    font-size:25px;
+    font-size:medium;
     font-family: Arial, Helvetica, sans-serif;
     counter-reset: option-counter;
 }
 
 main{
     display: none;
-    border:1px solid black;
-    height: 50%;
-    width: 450px;
+    height: 65%;
+    width: 650px;
     background-color: rgb(230, 230, 230);
+    padding:0px 40px 0 40px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px grey;
+}
+.questionNum{
+    letter-spacing: 3px;
+    color:rgb(104, 104, 252);
+    font-weight: bolder;
+    font-size:40px;
+    text-align: center;
+    border-bottom:4px solid rgb(104, 104, 252);;
+    margin-top:20px;
+    height: 80px;
+    padding: 10px 0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    text-shadow:-2px 0 rgb(0, 0, 184), 0 2px rgb(0, 0, 184), 2px 0 rgb(0, 0, 184), 0 -2px rgb(0, 0, 206);
 }
 #question{
-    background-color: white;
     box-sizing: border-box;
     width: 100%;
     padding:10px 0px;
+    margin: 10px 0 10px 0px;
+    text-align: center;
+    font-weight: bolder;
 }
 .option{
     margin: 15px 0;
     background-color: white;
     cursor: pointer;
-    height: 40px;
-    padding:5px 0px;
+    height: 50px;
     box-sizing: border-box;
-    border-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    position: relative;
+    padding:13px 10px;
+    left:11px;
+    font-weight: 600;
 }
 .option:hover{
     background-color: rgb(216, 216, 216);
@@ -39,9 +61,19 @@ main{
 .option::before{
     content: counter(option-counter);
     counter-increment: option-counter;
-    position: relative;
-    left:-17px;
-    font-size: large;
+    position: absolute;
+    font-size: medium;
+    background-color: white;
+    height: 50px;
+    left:-25px;
+    bottom:0px;
+    box-sizing: border-box;
+    padding:14px 0;
+    width:22px;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    font-weight: 700;
 }
 button{
     cursor: pointer;
@@ -49,10 +81,79 @@ button{
 .option:active{
     background-color: aliceblue;
 }
-#next{
-    background:linear-gradient(rgb(83, 197, 83) rgb(3, 182, 3) );
+#nextQuestion{
+    margin-top:20px;
+    background-image: linear-gradient(to top,rgb(0, 111, 214) , rgb(160, 179, 255) );
+    font-size: 20px;
     height: 50px;
+    width: 100%;
+    border-radius: 10px;
+    font-weight: 700;
+    color:white;
+    border:none;
+}
+#nextQuestion:hover,
+#finish:hover{
+    background:linear-gradient(to top, rgb(0, 91, 175),  rgb(155, 173, 255));
+}
+#nextQuestion:active{
+    background-color:rgb(161, 194, 255);
+}
+#finish{
+    margin-top:20px;
+    background-image: linear-gradient(to top,rgb(0, 112, 216) , rgb(113, 137, 233) );
+    font-size: 20px;
+    height: 50px;
+    width: 100%;
+    border-radius: 10px;
+    font-weight: 700;
+    color:white;
+    border:none;
+}
+#finish:hover{
+    background:linear-gradient(to top, rgb(0, 100, 194),  rgb(148, 167, 255));
 }
 #goBack{
     display: none;
+}
+#score{
+    text-align: center;
+    font-size:40px;
+    margin:30px 0;
+    color:rgb(94, 255, 94);
+    text-shadow:-2px 0 rgb(0, 148, 0), 0 2px rgb(0, 148, 0), 2px 0 rgb(0, 148, 0), 0 -2px rgb(0, 148, 0);
+    height: 50px;
+}
+#goBack{
+    margin-top:20px;
+    background:rgb(138, 138, 138);
+    font-size: 18px;
+    height: 40px;
+    border-radius: 10px;
+    font-weight: bold;
+    width: 150px;
+    color:white;
+    border:none;
+    margin:auto
+}
+#goBack:hover{
+    background-color: rgb(68, 68, 68);
+}
+#start{
+    margin-top:20px;
+    background:rgb(19, 141, 255);
+    font-size: 18px;
+    height: 40px;
+    border-radius: 10px;
+    font-weight: bold;
+    width: 190px;
+    color:white;
+    border:none;
+    box-shadow: rgb(148, 148, 148) 0 0 5px;
+}
+#start:hover{
+    background-color: rgb(0, 95, 184);
+}
+#start:active{
+    background-color: rgb(147, 198, 247);
 }
