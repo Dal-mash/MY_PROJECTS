@@ -12,15 +12,8 @@ let ctx = canvas.getContext('2d');
 ctx.fillStyle = "red";
 ctx.lineWidth = 5;
 
-// function resizeCanvas(){
-//     canvas.height = window.height;
-//     canvas.width = window.width;    
-// }
-
-// window.addEventListener('resize', resizeCanvas);
-
-class square{
-    constructor(xPos, yPos, width, height,  color, speed){
+class Square {
+    constructor(xPos, yPos, width, height, color, speed, line) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.height = height;
@@ -29,96 +22,100 @@ class square{
         this.speed = speed;
         this.dx = 0;
         this.dy = 0;
-        this.jumpTime = 10;
-        this.pressed = false;
         this.isJumping = false;
-        document.addEventListener('keydown', (event)=>{
-            this.pressed = true;
+        this.line = line;
+        
+        document.addEventListener('keydown', (event) => {
             this.input(event);
         });
-        document.addEventListener('keyup',()=>{
-            this.dx=0;
-            this.pressed = false;
-        })
+
+        document.addEventListener('keyup', (event) => {
+            this.stopInput(event);
+        });
     }
-    draw(ctx){
+    
+    draw(ctx) {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.xPos, this.yPos, this.width, this.height);        
     }
 
-    // playerJump(){
-    //     let jumpInterval = setInterval(this.jump, 1);
-    //     this.pressed = true;
-    //     console.log('playerjump checked')
-    //     setTimeout(()=>{
-    //         clearInterval(jumpInterval);
-    //         this.isJumping = false;
-    //         this.pressed = false;
-    //         console.log('jump finished');
-    //     }, 5000);
-    // }
-
-    // jump(){
-    //     console.log('jumping')
-    //     this.dy = -5;
-    // }
-    
     input(event) {
         switch (event.key) {
             case 'd':
                 this.dx = this.speed;
                 break;
-            case 's':
-                this.dy = this.speed;
-                break;
             case 'a':
                 this.dx = -this.speed;
                 break;
             case 'w':
-                this.isJumping=true;
+                if (!this.isJumping && this.yPos + this.height >= this.line.endY) {
+                    this.dy = -30;  // Jump strength
+                    this.isJumping = true;
+                }
                 break;
             default:
                 break;
         }
     }
     
-    jump(){
-        this.dy--;
-        this.jumpTime--;
+    stopInput(event) {
+        switch (event.key) {
+            case 'd':
+            case 'a':
+                this.dx = 0;
+                break;
+            default:
+                break;
+        }
     }
     
-    update(){
-        if(this.yPos < canvas_height && !this.pressed ){
-            this.dy=5;
+    update() {
+        // Gravity
+
+        if (this.yPos + this.height < this.line.endY || this.isJumping) {
+            this.dy+=2;
+        } else {
+            this.dy = 0;  
+            this.yPos = this.line.endY - this.height;  
+            this.isJumping = false;
         }
-        if (this.xPos + this.dx +this.width  > canvas_width || this.xPos + this.dx< 0) {
+        if(this.yPos+this.height>=this.line.endY){
+            this.isJumping=false;
+        }
+
+        if (this.xPos + this.dx + this.width > canvas_width || this.xPos + this.dx < 0) {
             this.dx = 0;
         }
-        if(this.isJumping){
-            console.log('if passed');
-            this.pressed=true;
-            this.jump();
-            if(this.jumpTime < 1 ){
-                this.isJumping = false;
-                this.jumpTime=10;
-                this.pressed=false;
-            }
-        }
-        if (this.yPos + this.dy +this.height > canvas_height || this.yPos + this.dy< 0) {
-            this.dy = 0;
-        }
-        this.xPos += this.dx;
         this.yPos += this.dy;
+        this.xPos += this.dx;
         this.draw(ctx);
     }
 }
 
-let square1 = new square(200, 200, 50, 50, "red", 10);
-square1.draw(ctx);
+class line{
+    constructor(startX, startY, endX, endY, color){
+        this.startX=startX;
+        this.startY=startY;
+        this.endX=endX;
+        this.endY=endY;
+        this.color=color;
+    }
+    draw(ctx){
+        ctx.beginPath();
+        ctx.moveTo(this.startX,this.startY);
+        ctx.lineTo(this.endX,this.endY);
+        ctx.strokestyle = this.color;
+        ctx.stroke();
+        ctx.closePath();
+    }
+}
+let line1 = new line(0, 600,canvas.width,600,'black');
+let square1 = new Square(200, 200, 50, 50, "red", 10, line1);
 
-updateSquare = function(){
+function updateSquare() {
     requestAnimationFrame(updateSquare);
     ctx.clearRect(0, 0, canvas_width, canvas_height);
-    square1.update();
+    square1.update(line1);
+    line1.draw(ctx);
 }
 updateSquare();
