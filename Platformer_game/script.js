@@ -1,30 +1,24 @@
 // Access the canvas element
 const canvas = document.getElementById('mainCanvas');
-
-const canvas_height = window.innerHeight;
-const canvas_width = window.innerWidth;
 canvas.style.background = 'yellow';
 
-canvas.height = canvas_height;
-canvas.width = canvas_width;
+canvas.height = 576;
+canvas.width = 1024;
+const gravity = 0.5;
 
 let ctx = canvas.getContext('2d');
 ctx.fillStyle = "red";
-ctx.lineWidth = 5;
 
-class Square {
-    constructor(xPos, yPos, width, height, color, speed, line) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.height = height;
-        this.width = width;
-        this.color = color;
-        this.speed = speed;
-        this.dx = 0;
-        this.dy = 0;
-        this.isJumping = false;
-        this.line = line;
-        
+class Player {
+    constructor(position) {
+        this.position=position;
+        this.height = 50;
+        this.width = 50;
+        this.color = 'blue';
+        this.velocity = {
+            x:0,
+            y:0
+        }        
         document.addEventListener('keydown', (event) => {
             this.input(event);
         });
@@ -35,23 +29,21 @@ class Square {
     }
     
     draw(ctx) {
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.xPos, this.yPos, this.width, this.height);        
+        ctx.lineWidth=5;
+        ctx.fillStyle=this.color;
+        ctx.fillRect(this.position.x,this.position.y,this.width,this.height,)       
     }
 
     input(event) {
         switch (event.key) {
             case 'd':
-                this.dx = this.speed;
+                this.velocity.x = 1;
                 break;
             case 'a':
-                this.dx = -this.speed;
+                this.velocity.x = -1;
                 break;
             case 'w':
-                if (!this.isJumping && this.yPos + this.height >= this.line.endY) {
-                    this.dy = -30;  // Jump strength
-                    this.isJumping = true;
-                }
+                this.velocity.y=-15;
                 break;
             default:
                 break;
@@ -62,7 +54,7 @@ class Square {
         switch (event.key) {
             case 'd':
             case 'a':
-                this.dx = 0;
+                this.velocity.x = 0;
                 break;
             default:
                 break;
@@ -70,52 +62,55 @@ class Square {
     }
     
     update() {
-        // Gravity
+        this.draw(ctx);
+        if(this.position.y+this.height+this.velocity.y<canvas.height){
+            this.velocity.y+=gravity;
+        }
+        else{
+            this.velocity.y=0;
+        }
+        this.position.x += this.velocity.x;
+        this.position.y += this.velocity.y;
+        console.log(this.velocity.y)
+        
+    }
+}
 
-        if (this.yPos + this.height < this.line.endY || this.isJumping) {
-            this.dy+=2;
-        } else {
-            this.dy = 0;  
-            this.yPos = this.line.endY - this.height;  
-            this.isJumping = false;
-        }
-        if(this.yPos+this.height>=this.line.endY){
-            this.isJumping=false;
-        }
-
-        if (this.xPos + this.dx + this.width > canvas_width || this.xPos + this.dx < 0) {
-            this.dx = 0;
-        }
-        this.yPos += this.dy;
-        this.xPos += this.dx;
+class Sprite{
+    constructor({position, imgSrc}){
+        this.position = position;
+        this.image = new Image();
+        this.image.src = imgSrc;
+    }
+    draw(ctx){
+        if(!this.image) return
+        ctx.drawImage(this.image, this.position.x, this.position.y);
+    }
+    update(){
         this.draw(ctx);
     }
 }
 
-class line{
-    constructor(startX, startY, endX, endY, color){
-        this.startX=startX;
-        this.startY=startY;
-        this.endX=endX;
-        this.endY=endY;
-        this.color=color;
-    }
-    draw(ctx){
-        ctx.beginPath();
-        ctx.moveTo(this.startX,this.startY);
-        ctx.lineTo(this.endX,this.endY);
-        ctx.strokestyle = this.color;
-        ctx.stroke();
-        ctx.closePath();
-    }
-}
-let line1 = new line(0, 600,canvas.width,600,'black');
-let square1 = new Square(200, 200, 50, 50, "red", 10, line1);
+var backGround = new Sprite({
+    position:{
+        x:0,
+        y:0
+    },
+    imgSrc : './images/background.png'
+})
+
+let player = new Player({
+    x:200,
+    y:200
+})
 
 function updateSquare() {
     requestAnimationFrame(updateSquare);
-    ctx.clearRect(0, 0, canvas_width, canvas_height);
-    square1.update(line1);
-    line1.draw(ctx);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.save();
+    ctx.scale(1.5,1.5);
+    backGround.update();
+    ctx.restore();
+    player.update();
+    
 }
-updateSquare();
