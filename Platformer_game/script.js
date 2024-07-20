@@ -23,11 +23,10 @@ for(let i=0;i<floorCollisions.length;i+=64){
     collisionBlocks2D.push(floorCollisions.slice(i, i+64))
 }
 var collisionBlocks=[];
-console.log(collisionBlocks2D);
 collisionBlocks2D.forEach((row, y) => {
     row.forEach((entity, x) => {
         if(entity === 17 ){
-            collisionBlocks.push(new collisionBlock({
+            collisionBlocks.push(new CollisionBlock({
                 x:x*16,
                 y:y*16
             }))
@@ -45,8 +44,11 @@ var backGround = new Sprite({
 })
 
 let player = new Player({
-    x:200,
-    y:200
+    position:{
+        x:200,
+        y:200,
+    },
+    collistionBlocks:collisionBlocks,
 })
 
 
@@ -61,9 +63,9 @@ function updateSquare() {
     collisionBlocks.forEach(block => {
         block.update()        
     });
+    player.update();
     ctx.restore();
 
-    player.update();
     
 }
 updateSquare();

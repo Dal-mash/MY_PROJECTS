@@ -1,4 +1,4 @@
-class collisionBlock{
+class CollisionBlock{
     constructor(position){
         this.position = position;
         this.height = 16;
