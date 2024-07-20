@@ -49,8 +49,8 @@ let player = new Player({
         y:200,
     },
     collistionBlocks:collisionBlocks,
+    imgSrc:'./images/player/playerIdle.png',
 })
-
 
 
 function updateSquare() {
