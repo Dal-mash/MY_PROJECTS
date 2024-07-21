@@ -1,6 +1,5 @@
 // Access the canvas element
 const canvas = document.getElementById('mainCanvas');
-canvas.style.background = 'yellow';
 
 canvas.height = 576;
 canvas.width = 1024;
@@ -50,6 +49,34 @@ let player = new Player({
     },
     collistionBlocks:collisionBlocks,
     imgSrc:'./images/player/playerIdle.png',
+    frameRate:6,
+    animations:{
+        idle:{
+            imgSrc : './images/player/playerIdle.png',
+            frameRate : 6,
+            frameBuffer : 7,
+        },
+        jump:{
+            imgSrc : './images/player/playerJump.png',
+            frameRate : 2,
+            frameBuffer : 3,
+        },
+        right:{
+            imgSrc : './images/player/playerRunRight.png',
+            frameRate : 6,
+            frameBuffer : 7,
+        },
+        left:{
+            imgSrc : './images/player/playerRunLeft.png',
+            frameRate : 6,
+            frameBuffer : 7,
+        },
+        fall:{
+            imgSrc : './images/player/playerFall.png',
+            frameRate : 2,
+            frameBuffer : 3,
+        }
+    }
 })
 
 
