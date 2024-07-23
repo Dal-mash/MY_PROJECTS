@@ -7,8 +7,8 @@ const gravity = 0.5;
 
 //positioning of Screen
 const scaledCanvas = {
-    width: canvas.width/3,
-    height: canvas.height/1.7
+    width: canvas.width/2.5,
+    height: canvas.height/1.4
 }
 
 //canvas context
@@ -79,13 +79,19 @@ let player = new Player({
     }
 })
 
+const camera = {
+    position:{
+        x:0,
+        y: -567 + 411
+    }
+}
 
 function updateSquare() {
     requestAnimationFrame(updateSquare);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.save();
-    // ctx.scale(3,3);
-    // ctx.translate(-40,-backGround.image.height+scaledCanvas.height)
+    ctx.scale(2.5,2.5);
+    ctx.translate(camera.position.x,camera.position.y)
     backGround.update();
     collisionBlocks.forEach(block => {
         block.update()        
