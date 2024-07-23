@@ -1,6 +1,5 @@
 // Access the canvas element
 const canvas = document.getElementById('mainCanvas');
-canvas.style.background = 'yellow';
 
 canvas.height = 576;
 canvas.width = 1024;
@@ -8,8 +7,8 @@ const gravity = 0.5;
 
 //positioning of Screen
 const scaledCanvas = {
-    width: canvas.width/3,
-    height: canvas.height/1.7
+    width: canvas.width/2.5,
+    height: canvas.height/1.4
 }
 
 //canvas context
@@ -50,15 +49,49 @@ let player = new Player({
     },
     collistionBlocks:collisionBlocks,
     imgSrc:'./images/player/playerIdle.png',
+    frameRate:6,
+    animations:{
+        idle:{
+            imgSrc : './images/player/playerIdle.png',
+            frameRate : 6,
+            frameBuffer : 7,
+        },
+        jump:{
+            imgSrc : './images/player/playerJump.png',
+            frameRate : 2,
+            frameBuffer : 3,
+        },
+        right:{
+            imgSrc : './images/player/playerRunRight.png',
+            frameRate : 6,
+            frameBuffer : 7,
+        },
+        left:{
+            imgSrc : './images/player/playerRunLeft.png',
+            frameRate : 6,
+            frameBuffer : 7,
+        },
+        fall:{
+            imgSrc : './images/player/playerFall.png',
+            frameRate : 2,
+            frameBuffer : 3,
+        }
+    }
 })
 
+const camera = {
+    position:{
+        x:0,
+        y: -567 + 411
+    }
+}
 
 function updateSquare() {
     requestAnimationFrame(updateSquare);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.save();
-    // ctx.scale(3,3);
-    // ctx.translate(-40,-backGround.image.height+scaledCanvas.height)
+    ctx.scale(2.5,2.5);
+    ctx.translate(camera.position.x,camera.position.y)
     backGround.update();
     collisionBlocks.forEach(block => {
         block.update()        
