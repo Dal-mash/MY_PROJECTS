@@ -51,7 +51,17 @@ class gameScreen extends Phaser.Scene{
     }
     preload(){
         this.load.image('map', './assets/background.jpeg');
-        this.load.image('player', './assets/ball.png');
+        this.load.image('bullet', './assets/bullet.png');
+        this.load.image('apple', './assets/apple.png');
+        this.load.image('gun', './assets/gun.png');
+        this.load.image('cursor', './assets/cursor.png');
+    }
+
+    updateCursor(){
+        if(this.cursor){
+            this.cursor.x = this.input.activePointer.x
+            this.cursor.y = this.input.activePointer.y
+        }
     }
 
     //pointer updating
@@ -77,6 +87,7 @@ class gameScreen extends Phaser.Scene{
     }
 
     create(){
+        this.mouseIsDown = false;
         this.nextScore = 30
         var bg = this.add.image(0, 0, 'map')
         bg.setOrigin(0,0)
@@ -86,33 +97,39 @@ class gameScreen extends Phaser.Scene{
             this.mouseX = this.pointer.x;
             this.mouseY = this.pointer.y
         this.appleNum = 2
-        this.appleVelocity = 30
+        this.appleVelocity = 100
+
+        this.input.on('pointerdown', ()=> this.mouseIsDown = true)
+        this.input.on('pointerup', ()=> this.mouseIsDown = false)
+
+
+        //custom cursor
+        this.input.setDefaultCursor('none');
+        this.cursor = this.add.image(0,0,'cursor')
+        this.cursor.setVisible(false)
+        this.input.on('pointermove', (pointer) =>{ 
+            this.cursor.setVisible(true)
+            this.cursor.x=pointer.x
+            this.cursor.y = pointer.y
+        } )
+        this.input.on('pointerout', () =>{ 
+            this.cursor.setVisible(false)
+        } )
+
+
+
         //player
-        this.player = this.physics.add.sprite(mid.width, mid.height, 'player');
-        this.player.setScale(1/40)
+        this.player = this.physics.add.sprite(mid.width, mid.height, 'gun');
         this.player.setInteractive({useHandCursor:true});
         this.player.on('pointerdown', ()=>{
             this.scene.switch('titleScreen')
-        })
-        this.player.depth = 2
-        bg.setInteractive({useHandCursor:false})
+        })  
+        this.player.depth = 3 
         //player speed
         this.speed = 160
-        this.keys = {
-            w: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
-            a: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
-            s: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
-            d: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
-            z: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z),
 
-        }
-        this.player.setCollideWorldBounds(true)
 
         //apples
-        const graphics = this.add.graphics()
-        graphics.fillStyle(0xFF0000, 1.0);
-        graphics.fillRect(0,0, 40,40)
-        graphics.generateTexture ('apple', 20, 20);
         this.apples = this.physics.add.group()
         for(let i=0;i<2;i++){
             let tempEnemy = this.apples.create(Phaser.Math.Between(600, 620), Phaser.Math.Between(600, 620), 'apple');
@@ -123,10 +140,6 @@ class gameScreen extends Phaser.Scene{
 
 
         //bullet
-        graphics.fillStyle(0xFF1200, 1.0);
-        graphics.fillRect(0,0,40,40);
-        graphics.generateTexture('bullet', 10, 10);
-        graphics.destroy();
         this.bullets = this.physics.add.group();
         this.counter = 0
         this.threshold = 10;
@@ -134,7 +147,7 @@ class gameScreen extends Phaser.Scene{
         
         //Score
         this.score = 0
-        this.scoreBlock = this.add.text(0,0,'Score: ' + this.score, {fillStyle: 'white', font: '32px arial'})
+        this.scoreBlock = this.add.text(0,0,'Score: ' + this.score, {fillStyle: 'white', fontSize:'32px', fontFamily:'gameFont'})
 
         //coliders
         this.physics.add.collider(this.apples, this.apples)
@@ -142,18 +155,22 @@ class gameScreen extends Phaser.Scene{
     }
     update(){
         //player cursor angle
+        this.updateCursor()
         this.updatePointer()
         let angle = getAngle(this.player.x, this.player.y,this.mouseX,this.mouseY)
-        this.player.angle = angle
+        this.player.angle = angle + 90
 
         //bullet logic
-        if (this.keys.z.isDown && this.counter>this.threshold) {
-                let tempBullet = this.bullets.create(this.player.x, this.player.y, 'bullet');
-                tempBullet.depth = 1;
-                const angle = Phaser.Math.Angle.Between(this.player.x, this.player.y, this.mouseX, this.mouseY);
-                this.physics.velocityFromRotation(angle, 500, tempBullet.body.velocity); 
-                this.counter=0
-        }       
+        if(this.mouseIsDown){
+            if (this.counter > this.threshold) {
+                    let tempBullet = this.bullets.create(this.player.x, this.player.y, 'bullet');
+                    tempBullet.setScale(1/2,1/2)
+                    tempBullet.depth = 1;
+                    const angle = Phaser.Math.Angle.Between(this.player.x, this.player.y, this.mouseX, this.mouseY);
+                    this.physics.velocityFromRotation(angle, 500, tempBullet.body.velocity); 
+                    tempBullet.angle = this.player.angle
+                    this.counter=0
+            }};
         this.bullets.children.iterate(bullet => {
             if (bullet){
                 if (bullet.x > this.sys.game.config.width + 100 || bullet.x < -100 ||
@@ -163,48 +180,33 @@ class gameScreen extends Phaser.Scene{
             }
         });
 
-        this.score = this.score
-
 
         //apple movement
-        this.apples.children.iterate(apple =>{
-            if(apple){
-                this.physics.moveToObject(apple, this.player,this.appleVelocity);
-                if((Phaser.Geom.Intersects.RectangleToRectangle(this.player.getBounds(), apple.getBounds()))){
-                    setRandomPosition(apple)
-                }
+        // this.apples.children.iterate(apple =>{
+        //     if(apple){
+        //         this.physics.moveToObject(apple, this.player,this.appleVelocity);
+        //         if((Phaser.Geom.Intersects.RectangleToRectangle(this.player.getBounds(), apple.getBounds()))){
+        //             this.registry.set('score', this.score);
+        //             this.scene.start('overScreen');
+        //             setRandomPosition(apple)
+        //         }
                 
-                if((Phaser.Geom.Intersects.RectangleToRectangle(this.scoreBlock.getBounds(), apple.getBounds()))){
-                    setRandomPosition(apple)
-                }
-            }
-        })
-
-            if(this.keys.w.isDown){
-                this.player.setVelocityY(-this.speed);
-            }
-            else if(this.keys.s.isDown){
-                this.player.setVelocityY(this.speed)
-            }
-            else{
-                this.player.setVelocityY(0)
-            }
-            if(this.keys.a.isDown){
-                this.player.setVelocityX(-this.speed);
-            }
-            else if(this.keys.d.isDown){
-                this.player.setVelocityX(this.speed)
-            }
-            else{
-                this.player.setVelocityX(0)
-            }  
+        //         if((Phaser.Geom.Intersects.RectangleToRectangle(this.scoreBlock.getBounds(), apple.getBounds()))){
+        //             setRandomPosition(apple)
+        //         }
+        //     }
+        // })
+  
             this.counter++
 
             //difficulty overtime
             if(this.score > this.nextScore){
+
                 this.addApple()
-                this.appleVelocity+=10
-                this.nextScore+=50
+                this.appleVelocity+=5
+                this.nextScore+=80
+                this.threshold--
+                console.log(this.threshold);
             }
     } 
 }

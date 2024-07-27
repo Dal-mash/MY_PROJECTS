@@ -21,7 +21,6 @@ class titleScreen extends Phaser.Scene {
             this.scene.stop()
             this.scene.start('game')
         });
-        console.log(text.width, text.height)
         }
 }
 
