@@ -5,7 +5,7 @@ class titleScreen extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('background', './assets/background.jpeg');
+        this.load.image('background', './assets/images/background.jpeg');
     }
 
     create() {
@@ -13,9 +13,7 @@ class titleScreen extends Phaser.Scene {
         bg.setOrigin(0,0)
         bg.displayWidth = this.sys.game.config.width
         bg.displayHeight = this.sys.game.config.height
-        let textX = this.sys.game.config.width/2 - 102
-        let textY = this.sys.game.config.height/2 - 22
-        var text = this.add.text(textX, textY, "Test Game", { font: '42px Arial', fill: 'rgb(255, 255, 255)',});
+        var text = this.add.text(this.cameras.main.width/2, this.cameras.main.height/2, "Start", { font: '52px gameFont', fill: 'rgb(255, 255, 255)',}).setOrigin(0.5,0.5);
         text.setInteractive({useHandCursor : true})
         text.on('pointerdown', () => {
             this.scene.stop()
