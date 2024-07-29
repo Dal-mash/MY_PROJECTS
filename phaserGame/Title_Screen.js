@@ -5,7 +5,7 @@ class titleScreen extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('background', './assets/images/background.jpeg');
+        this.load.image('background', './assets/images/Title_Background.jpeg');
     }
 
     create() {

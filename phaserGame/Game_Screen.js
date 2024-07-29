@@ -41,7 +41,7 @@ class GameScreen extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('map', './assets/images/background.jpeg');
+        this.load.image('map', './assets/images/gameBackground.png');
         this.load.image('bullet', './assets/images/bullet.png');
         this.load.image('apple', './assets/images/apple.png');
         this.load.image('gun', './assets/images/gun.png');
@@ -59,6 +59,7 @@ class GameScreen extends Phaser.Scene {
         this.appleVelocity = 80;
         this.score = 0;
         this.health = 3
+        this.isPiercing = false
 
         // Background
         const bg = this.add.image(0, 0, 'map').setOrigin(0, 0);
@@ -164,8 +165,9 @@ class GameScreen extends Phaser.Scene {
             this.addApple();
             this.appleVelocity += 2;
             this.nextScore += 100;
+            if(this.score>300) this.isPiercing = true
             if (this.fireRate > 1) {
-                this.fireRate-=0.5;
+                this.fireRate--;
             }
         }
     }
@@ -174,7 +176,7 @@ class GameScreen extends Phaser.Scene {
         setRandomPosition(apple);
         this.score += 5;
         this.scoreBlock.setText('Score: ' + this.score);
-        bullet.destroy();
+        if(!this.isPiercing) bullet.destroy();
     }
 
     addApple() {

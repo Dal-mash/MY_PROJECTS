@@ -29,4 +29,4 @@ game.scene.add('titleScreen', title);
 game.scene.add('game', Game);
 game.scene.add('overScreen', gameOver)
 
-game.scene.start('game')
+game.scene.start('titleScreen')
