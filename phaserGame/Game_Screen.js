@@ -68,7 +68,7 @@ class GameScreen extends Phaser.Scene {
 
         // Custom cursor
         this.input.setDefaultCursor('none');
-        this.cursor = this.add.image(0, 0, 'cursor').setVisible(false);
+        this.cursor = this.add.image(0, 0, 'cursor').setVisible(false).setDepth(999);
         this.input.on('pointermove', pointer => {
             this.cursor.setVisible(true).setPosition(pointer.x, pointer.y);
         });
@@ -78,12 +78,19 @@ class GameScreen extends Phaser.Scene {
 
         // Player
         this.player = this.physics.add.sprite(mid.width, mid.height, 'gun')
-            .setInteractive({ useHandCursor: true })
             .setDepth(3);
-        this.player.on('pointerdown', () => {
-            this.input.setDefaultCursor('default')
-            this.scene.switch('titleScreen');
+
+        this.tween = this.tweens.add({
+            targets: this.player,
+            alpha: { from: 1, to: 0 },
+            duration: 200,
+            ease: 'Linear',
+            yoyo: true,
+            repeat: 3,
+            paused: true,
         });
+
+        this.tween.pause();
 
         // Apples
         this.apples = this.physics.add.group();
@@ -96,9 +103,9 @@ class GameScreen extends Phaser.Scene {
 
         // Score
         this.scoreBlock = this.add.text(10, 10, 'Score: ' + this.score, {
-            fillStyle: 'white',
+            fillStyle: 'green',
             fontSize: '38px',
-            fontFamily: 'gameFont'
+            fontFamily: 'Tiny'
         });
 
         //lifes
@@ -115,6 +122,23 @@ class GameScreen extends Phaser.Scene {
         // Mouse events
         this.input.on('pointerdown', () => this.mouseIsDown = true);
         this.input.on('pointerup', () => this.mouseIsDown = false);
+    }
+
+    //play hurt animation
+    hurtplayer() {
+        this.player.alpha = 1;
+        if (!this.tween || this.tween.isDestroyed) {
+            this.tween = this.tweens.add({
+                targets: this.player,
+                alpha: { from: 1, to: 0 },
+                duration: 200,
+                ease: 'Linear',
+                yoyo: true,
+                repeat: 3,
+                paused: true,
+            });
+        }
+        this.tween.restart();
     }
 
     update() {
@@ -147,6 +171,7 @@ class GameScreen extends Phaser.Scene {
             if (apple) {
                 this.physics.moveToObject(apple, this.player, this.appleVelocity);
                 if (Phaser.Geom.Intersects.RectangleToRectangle(this.player.getBounds(), apple.getBounds())) {
+                    this.hurtplayer();
                     if(--this.health<1) this.endgame()
                         this.images.getChildren()[0].destroy()
                     setRandomPosition(apple);
