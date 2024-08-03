@@ -1,5 +1,5 @@
 import titleScreenClass from './js/titleScreenClass.js';
-import gameScreenClass from './js/gameScreenClass.js';
+import gameScreenClass from './js/gameScene/gameScreenClass.js';
 const config = {
     type: Phaser.AUTO,
     width: 800,
@@ -8,7 +8,7 @@ const config = {
         default: 'arcade',
         arcade: {
             gravity: { y:1000 },
-            debug: false
+            debug: true
         }
     },
 };
