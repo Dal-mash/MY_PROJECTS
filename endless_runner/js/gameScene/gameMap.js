@@ -1,4 +1,4 @@
-export function makeMap(scene){
+export function makeMap(scene, player){
     const map = scene.make.tilemap({ key: 'map' });
     const scale = 2;
     const worldHeight = map.heightInPixels * scale;
@@ -9,16 +9,17 @@ export function makeMap(scene){
 
     const tileset = map.addTilesetImage('Simple Forest Tileset', 'tiles', 16, 16,);
     const collisions = map.addTilesetImage('collisionBlocks', 'collisionBlocks');
+    const propsTiles = map.addTilesetImage('Props','propsImage',16,16);
 
     const skyLayer = map.createLayer('sky', tileset, 0, 0).setScale(scale);
     const platformLayer = map.createLayer('platforms', tileset, 0, 0).setScale(scale);
+    const propLayer = map.createLayer('props', propsTiles, 0,0).setScale(scale);
+    const grassLayer = map.createLayer('grass', propsTiles,0,0).setScale(scale);
     const collisionLayer = map.createLayer('collision', collisions, 0, 0).setScale(scale);
 
-    skyLayer.setDepth(0);
-    platformLayer.setDepth(1);
-    collisionLayer.setDepth(2);
+
+    
      
-    collisionLayer.setCollisionByExclusion([-1])
     
     return{worldHeight, worldWidth, collisionLayer}
 }

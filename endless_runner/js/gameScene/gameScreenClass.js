@@ -13,14 +13,13 @@ class gameScreenClass extends Phaser.Scene {
         this.load.image('collisionBlocks', './assets/map/collisionBlocks.png')
         this.load.image('tiles', './assets/map/tiles.png')
         this.load.spritesheet('player', './assets/images/playerSpriteSheet.png',{frameWidth:48, frameHeight:48});
+        this.load.image('propsImage', './assets/map/props.png')
     }
 
     create() {
         // Initialize map and scale
         this.facingRight = true
-        this.isOnGround = true;
-        const {worldHeight, worldWidth, collisionLayer} = makeMap(this);
-    
+        this.isOnGround = true;    
         //player Setup
         this.player = createPlayer(this);
         this.keys = {
@@ -29,6 +28,14 @@ class gameScreenClass extends Phaser.Scene {
             d: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
         };
 
+        //adding map
+        const {worldHeight, worldWidth, collisionLayer} = makeMap(this, this.player);
+        collisionLayer.setCollisionBetween(25, 26);
+
+        collisionLayer.setTileIndexCallback(26, this.oneWayCollision, this);
+
+        this.physics.add.collider(this.player, collisionLayer);
+
         // Configure camera
         this.camera = makeCamera(this, worldHeight,worldWidth,this.player)
 
@@ -36,11 +43,16 @@ class gameScreenClass extends Phaser.Scene {
         createPlayerAnimations(this);
         this.player.play('idle');
 
-        //addind collider
-        this.physics.add.collider(this.player, collisionLayer)
-
         // Debug output
         console.log();
+    }
+
+    oneWayCollision(player, tile) {
+        if (player.body.velocity.y > 0 && player.body.y + player.body.height <= (tile.pixelY + 16)*2) {
+            return false; // Collide
+        } else {
+            return true; // No collision
+        }
     }
 
     update(){
@@ -58,7 +70,7 @@ class gameScreenClass extends Phaser.Scene {
             this.facingRight = true;
             if(this.isOnGround){
                 this.player.setFlipX(false)
-                this.player.play('run', true);
+                this.player.play('sprint', true);
             }
         }
         if(this.keys.a.isDown){
@@ -66,7 +78,7 @@ class gameScreenClass extends Phaser.Scene {
             this.facingRight = false;
             if(this.isOnGround){
                 this.player.setFlipX(true)
-                this.player.play('run',true);
+                this.player.play('sprint',true);
             }
         }
     
@@ -90,7 +102,7 @@ class gameScreenClass extends Phaser.Scene {
         }
 
         if(this.keys.w.isDown && this.isOnGround){
-            this.player.setVelocityY(-370);
+            this.player.setVelocityY(-960);
             if(this.facingRight){
                 this.player.setFlipX(false);
                 this.player.play('jump', true);
