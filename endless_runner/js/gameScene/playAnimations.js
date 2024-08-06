@@ -41,7 +41,6 @@ export function createPlayerAnimations(scene){
         frameRate:2,
         repeat : -1,
     }
-    
 
     scene.anims.create(idle);
     scene.anims.create(walk);

@@ -1,5 +1,5 @@
 export function createPlayer(scene){
-    scene.player = scene.physics.add.sprite(200, 1500, 'player').setDepth(4)
+    scene.player = scene.physics.add.sprite(200, 1500, 'player').setDepth(10)
     scene.player.setCollideWorldBounds(true);
     scene.player.setScale(2)
     scene.player.body.setSize(15, 19)
@@ -28,12 +28,11 @@ let jumpBuffer = 0;
 
 export function updatePlayer(player, delta, scene ) {
 
-
     //setting player states
     if (player.body.velocity.y === 0) {
         state.falling = false;
         state.jumping = false;
-        canJump = false
+        canJump = false;
         
         if (player.body.velocity.x === 0) {
             state.moving = false;
@@ -52,23 +51,18 @@ export function updatePlayer(player, delta, scene ) {
         state.idle = false;
         state.falling = false;
         state.moving = false;
-        jumpBuffer = 0  
+        jumpBuffer = 0;  
     }
 
 
-    /////////////////////////////////////
-    //jumping mechanics
-
-    //toggle jumping
-    if(!scene.keys.w.isDown){
-        jumpPress = false
-    }
 
     //coyote jump timer
-    if(state.falling || !state.idle || state.jumping){
-        coyoteCount-=delta;}
-    if( state.idle || state.moving){
-        coyoteCount  =  coyoteTime; }
+    if (state.falling || !state.idle || !state.jumping) {
+        coyoteCount -= delta;
+    }
+    if (state.idle || state.moving) {
+        coyoteCount = coyoteTime;
+    }
 
     //Tweaking  player Gravity
     if(state.idle || state.moving){
@@ -77,10 +71,10 @@ export function updatePlayer(player, delta, scene ) {
     if(state.jumping){
         player.body.setGravityY(300);
     }
-    //
+
     ////////////////////////////////////////////////
     
-   
+   //console.log({coyoteCount}, state.falling)
 
 
     ////////////////////////////////////////
@@ -115,6 +109,10 @@ export function updatePlayer(player, delta, scene ) {
             jumpPress = true
             canJump = true;
             jumpBuffer = Buffer_Time;
+            if(coyoteCount>0){
+                playerJump(player);
+                coyoteCount=0;
+            }
         }
         else{
             jumpBuffer-=delta
@@ -129,10 +127,14 @@ export function updatePlayer(player, delta, scene ) {
         player.play('fall',true)
     }
 
+    //toggle jumping
+    if(!scene.keys.w.isDown){
+        jumpPress = false
+    }
+
     //jump buffering
     if(player.body.onFloor()){canJump = true
         if(canJump && jumpBuffer>0){
-            console.log('jump')
             playerJump(player);
         }
         jumpBuffer = 0;

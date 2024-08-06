@@ -15,6 +15,11 @@ class gameScreenClass extends Phaser.Scene {
         this.load.image('tiles', './assets/map/tiles.png')
         this.load.spritesheet('player', './assets/images/playerSpriteSheet.png',{frameWidth:48, frameHeight:48});
         this.load.image('propsImage', './assets/map/props.png')
+        this.load.image('sky', './assets/map/sky.png')
+        this.load.image('backMountain', './assets/map/back_mountains.png')
+        this.load.image('frontMountain', './assets/map/front_mountains.png')
+        this.load.image('backBushes', './assets/map/back_bushes.png')
+        this.load.image('frontBushes', './assets/map/front_bushes.png')
     }
 
     create() {
@@ -32,10 +37,11 @@ class gameScreenClass extends Phaser.Scene {
         //adding map
         const {worldHeight, worldWidth, collisionLayer} = makeMap(this, this.player);
         collisionLayer.setCollisionBetween(25, 26);
-
-        collisionLayer.setTileIndexCallback(26, this.oneWayCollision, this);
-
+        collisionLayer.setTileIndexCallback(26, this.oneWayCollision, this)
         this.physics.add.collider(this.player, collisionLayer);
+
+        console.log(this.skyLayer)
+        
 
         // Configure camera
         this.camera = makeCamera(this, worldHeight,worldWidth,this.player)
@@ -56,77 +62,12 @@ class gameScreenClass extends Phaser.Scene {
 
     update(time, delta){
         updatePlayer(this.player,delta,this)
-        // this.player.setVelocityX(0)
-        // if(this.player.body.velocity.y != 0){
-        //     this.isOnGround =false
-        // }
-        // else{
-        //     this.isOnGround = true
-        // }
 
-        // if(this.keys.d.isDown){
-        //     this.player.setVelocityX(300)
-        //     this.facingRight = true;
-        //     if(this.isOnGround){
-        //         this.player.setFlipX(false)
-        //         this.player.play('sprint', true);
-        //     }
-        // }
-        // if(this.keys.a.isDown){
-        //     this.player.setVelocityX(-300)
-        //     this.facingRight = false;
-        //     if(this.isOnGround){
-        //         this.player.setFlipX(true)
-        //         this.player.play('sprint',true);
-        //     }
-        // }
-    
-        // if(this.player.body.velocity.y>0){
-        //     if(this.facingRight){
-        //         this.player.setFlipX(false)
-        //         this.player.play('fall',true)
-        //     }
-        //     else{
-        //         this.player.setFlipX(true)   
-        //         this.player.play('fall',true)
-        //     }
-        //     this.player.setGravityY(1200);
-        // }
-
-        // if(this.player.body.velocity.y==0 && this.player.body.velocity.x ==0){
-        //     if(this.facingRight){
-        //         this.player.setFlipX(false);
-        //     }
-        //     else{this.player.setFlipX(true)}
-        //     this.player.play('idle', true)
-        // }
-
-        // if(this.keys.w.isDown && this.isOnGround){
-        //     this.player.setVelocityY(-510);
-        //     this.player.setGravityY(300);
-        //     if(this.facingRight){
-        //         this.player.setFlipX(false);
-        //         this.player.play('jump', true);
-        //     }
-        //     else{
-        //         this.player.setFlipX(true)
-        //         this.player.play('jump', true);
-        //     }
-        // }
-        // if(this.player.body.touching.down){
-        //     this.player.body.setGravityY(1000);
-        // }
-
-        // if(this.player.body.velocity.y<0){
-        //     if(this.facingRight){
-        //         this.player.setFlipX(false);
-        //         this.player.play('jump', true);
-        //     }
-        //     else{
-        //         this.player.setFlipX(true)
-        //         this.player.play('jump', true);
-        //     }
-        // }
+        this.skyLayer.tilePositionX = this.cameras.main.scrollX * 0.001;
+        this.backMountain.tilePositionX = this.cameras.main.scrollX * 0.01;
+        this.frontMountain.tilePositionX = this.cameras.main.scrollX * 0.05;
+        this.backBushes.tilePositionX = this.cameras.main.scrollX * 0.08;
+        this.frontBushes.tilePositionX = this.cameras.main.scrollX * 0.2;
         
         if(this.player.y>2000) {this.player.setPosition(200, 1500)}
 
