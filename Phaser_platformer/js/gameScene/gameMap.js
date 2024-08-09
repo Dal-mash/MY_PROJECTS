@@ -1,3 +1,4 @@
+
 export function makeMap(scene, player){
     const map = scene.make.tilemap({ key: 'map' });
     const scale = 2;
@@ -28,12 +29,13 @@ export function makeMap(scene, player){
 
     propLayer.setCollisionBetween(42,44);
 
+    scene.physics.add.group();
+
     propLayer.forEachTile(tile => {
         if (tile.index === 42 || tile.index===43 || tile.index===44) {
             tile.setCollisionCallback((tile, body) => {
-             //   tile.setOffset(0,2)
-                body.setSize(1, 1)
-                body.setOffset(0,3)
+                body.setSize(16,5);
+                body.setOffset(0,5)
             });
         }
     });
@@ -41,9 +43,6 @@ export function makeMap(scene, player){
     scene.physics.add.collider(player, propLayer)
 
 
-
-    
-     
     
     return{worldHeight, worldWidth, collisionLayer, propLayer}
 }
