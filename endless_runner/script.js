@@ -8,7 +8,10 @@ const config = {
         default: 'arcade',
         arcade: {
             gravity: { y:1000 },
-            debug: true
+            debug: true,
+            debugShowBody: true,   
+            debugShowStaticBody: true,
+            debugBodyColor: 0xff00ff ,
         }
     },
 };

@@ -1,5 +1,5 @@
 export function createPlayer(scene){
-    scene.player = scene.physics.add.sprite(200, 1500, 'player').setDepth(10)
+    scene.player = scene.physics.add.sprite(200, 1000, 'player').setDepth(10)
     scene.player.setCollideWorldBounds(true);
     scene.player.setScale(2)
     scene.player.body.setSize(15, 19)
@@ -153,6 +153,15 @@ export function updatePlayer(player, delta, scene ) {
         player.play('idle', true)
     }
 
+    if(state.jumping || state.falling){
+        if(right){
+            player.setFlipX(false);
+        }
+        else{
+            player.setFlipX(true)
+        }
+    }
+
 
     //jumping up
     if(scene.keys.w.isDown && !jumpPress ){
@@ -165,7 +174,7 @@ export function updatePlayer(player, delta, scene ) {
 }
 
 function playerJump(player){
-    player.setVelocityY(-510);
+    player.setVelocityY(-540);
         if(right){
             player.setFlipX(false);
         }

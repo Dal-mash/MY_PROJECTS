@@ -35,11 +35,12 @@ class gameScreenClass extends Phaser.Scene {
         };
 
         //adding map
-        const {worldHeight, worldWidth, collisionLayer} = makeMap(this, this.player);
+        const {worldHeight, worldWidth, collisionLayer, propLayer} = makeMap(this, this.player);
         collisionLayer.setCollisionBetween(25, 26);
         collisionLayer.setTileIndexCallback(26, this.oneWayCollision, this)
         this.physics.add.collider(this.player, collisionLayer);
 
+        
         console.log(this.skyLayer)
         
 
@@ -69,7 +70,7 @@ class gameScreenClass extends Phaser.Scene {
         this.backBushes.tilePositionX = this.cameras.main.scrollX * 0.08;
         this.frontBushes.tilePositionX = this.cameras.main.scrollX * 0.2;
         
-        if(this.player.y>2000) {this.player.setPosition(200, 1500)}
+        if(this.player.y>1500) {this.player.setPosition(200, 1000)}
 
         // if (this.player.y + this.player.height < this.platform.y) {
         //     if (!this.platformCollider) { 
