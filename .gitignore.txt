@@ -1,2 +1,5 @@
+# Ignore all files in node_modules and dist folders
 node_modules/
+dist/
+
 
